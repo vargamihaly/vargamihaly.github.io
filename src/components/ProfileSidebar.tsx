@@ -1,6 +1,6 @@
 import {MapPin, Mail} from "lucide-react";
 import avatarImage from "@/assets/avatar.jpeg";
-import { GithubIcon, LinkedinIcon, FacebookIcon } from "@/components/icons/BrandIcons";
+import { GithubIcon, LinkedinIcon } from "@/components/icons/BrandIcons";
 
 export function ProfileSidebar() {
     return (
@@ -41,11 +41,11 @@ export function ProfileSidebar() {
                 {/* Contact Info */}
                 <div className="w-full space-y-3">
                     <a
-                        href="mailto:vmisi20@gmail.com"
+                        href="mailto:contact@mihaly-varga.com"
                         className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group"
                     >
                         <Mail className="w-5 h-5 group-hover:scale-110 transition-transform"/>
-                        <span className="text-sm">vmisi20@gmail.com</span>
+                        <span className="text-sm">contact@mihaly-varga.com</span>
                     </a>
 
                     <div className="flex items-center gap-3 text-muted-foreground">

@@ -142,7 +142,7 @@ export function MainContent() {
         
         <div className="flex flex-wrap gap-3">
           <Button asChild>
-            <a href="mailto:vmisi20@gmail.com">
+            <a href="mailto:contact@mihaly-varga.com">
               <Mail className="w-4 h-4 mr-2" />
               Get in Touch
             </a>
