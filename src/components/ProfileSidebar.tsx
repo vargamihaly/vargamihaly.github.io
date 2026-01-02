@@ -1,8 +1,12 @@
 import {MapPin, Mail} from "lucide-react";
 import avatarImage from "@/assets/avatar.jpeg";
-import { GithubIcon, LinkedinIcon } from "@/components/icons/BrandIcons";
+import { GithubIcon, LinkedinIcon, MusicIcon } from "@/components/icons/BrandIcons";
+import { useState } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export function ProfileSidebar() {
+    const [isRickRolled, setIsRickRolled] = useState(false);
+
     return (
         <aside
             className="w-full lg:w-80 xl:w-96 bg-sidebar-bg border-r border-sidebar-border p-6 lg:p-8 lg:sticky lg:top-0 lg:h-screen overflow-y-auto">
@@ -79,7 +83,36 @@ export function ProfileSidebar() {
                         <span className="text-sm">vmisi20</span>
                     </a>
                 </div>
+
+                {/* Easter Egg */}
+                <div className="w-full mt-8">
+                    <button
+                        onClick={() => setIsRickRolled(true)}
+                        className="flex items-center gap-3 text-muted-foreground/30 hover:text-primary/50 transition-colors group"
+                        title="🎵"
+                    >
+                        <MusicIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        <span className="text-sm opacity-0 group-hover:opacity-50 transition-opacity">...</span>
+                    </button>
+                </div>
             </div>
+
+            {/* RickRoll Dialog */}
+            <Dialog open={isRickRolled} onOpenChange={setIsRickRolled}>
+                <DialogContent className="max-w-4xl p-0 bg-black border-primary/30">
+                    <div className="aspect-video w-full">
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                            title="You've been Rick Rolled!"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </aside>
     );
 }

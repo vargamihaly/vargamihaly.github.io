@@ -148,7 +148,7 @@ export function MainContent() {
             </a>
           </Button>
           <Button variant="outline" asChild>
-            <a href="https://vargamihaly.github.io/right-resume.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="/Varga_Mihaly_CV.pdf" target="_blank" rel="noopener noreferrer">
               <FileText className="w-4 h-4 mr-2" />
               Download CV
             </a>
