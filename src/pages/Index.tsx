@@ -9,7 +9,7 @@ const Index = () => {
         <title>Mihály Varga | Senior Software Engineer</title>
         <meta
           name="description"
-          content="Senior Software Engineer specializing in Microsoft technologies, Azure, C#, .NET Core, and Entity Framework. Building robust web and desktop applications."
+          content="Senior Software Engineer specializing in Microsoft technologies, Azure, C#, .NET 10, and Entity Framework. Building robust web and desktop applications."
         />
         <meta name="keywords" content="Mihály Varga, Software Engineer, C#, .NET, Azure, Developer, Hungary" />
         <meta property="og:title" content="Mihály Varga | Senior Software Engineer" />

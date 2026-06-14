@@ -1,20 +1,23 @@
 import { TechBadge } from "./TechBadge";
 import { ExperienceCard } from "./ExperienceCard";
 import { EducationCard } from "./EducationCard";
-import { FileText, Code, Briefcase, GraduationCap, Mail } from "lucide-react";
+import { ProjectCard } from "./ProjectCard";
+import { FileText, Code, Briefcase, GraduationCap, Mail, Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const skills = {
     backendAndArchitecture: [
-        { name: ".NET 8/9", color: "bg-purple-600" },
+        { name: ".NET 8/9/10", color: "bg-purple-600" },
         { name: "C#", color: "bg-purple-500" },
         { name: "ASP.NET Core", color: "bg-indigo-600" },
         { name: "Entity Framework", color: "bg-blue-600" },
-        { name: "RabbitMQ", color: "bg-orange-500" }
+        { name: "RabbitMQ", color: "bg-orange-500" },
+        { name: "Azure SQL", color: "bg-blue-400" }
     ],
 
     cloudAndDevOps: [
         { name: "Azure", color: "bg-blue-500" },
+        { name: "Pulumi", color: "bg-violet-500" },
         { name: "Docker", color: "bg-sky-600" },
         { name: "CI/CD Pipelines", color: "bg-orange-600" },
         { name: "PowerShell", color: "bg-gray-600" }
@@ -31,6 +34,8 @@ const skills = {
     ],
 
     aiAndIntegration: [
+        { name: "Python", color: "bg-blue-700" },
+        { name: "Azure Databricks", color: "bg-red-500" },
         { name: "Semantic Kernel", color: "bg-pink-600" },
         { name: "Azure OpenAI", color: "bg-blue-600" },
         { name: "RAG Architecture", color: "bg-indigo-500" },
@@ -52,11 +57,29 @@ const categoryLabels: Record<string, string> = {
     methodologies: "Methodologies"
 };
 
+const projects = [
+  {
+    title: "BottleBuddy",
+    role: "Founder & Lead Developer",
+    period: "2025 - Present",
+    description: "A free, non-profit community platform connecting people with returnable bottles with volunteers who collect them. Built as a PWA with an Android app available on the Play Store, featuring real-time messaging, map discovery, and a robust gamification system.",
+    link: "https://bottlebuddy.hu",
+    technologies: [".NET 10", "React", "SignalR", "Azure", "PWA", "Leaflet", "TanStack Query", "Web Push"],
+  }
+];
+
 const experiences = [
+  {
+    title: "Senior .NET Developer",
+    company: "HEITEC Hungary Kft.",
+    period: "Jan 2026 - Present",
+    description: "Architecting and developing cloud-native solutions using Azure Durable Functions and .NET 10. Managing Infrastructure as Code with Pulumi and implementing data processing pipelines with Azure Databricks and Python.",
+    technologies: ["Azure Durable Functions", "Azure", "Pulumi", ".NET 10", "C#", "TypeScript", "Azure Databricks", "Python", "Azure DevOps", "Azure SQL"],
+  },
   {
     title: ".NET Developer",
     company: "Blackbelt Technology Kft.",
-    period: "Sep 2021 - Present",
+    period: "Sep 2021 - Jan 2026",
     description: "Developing enterprise-level applications using ASP.NET MVC, Web APIs, and Entity Framework Core. Implementing message queuing solutions with RabbitMQ.",
     technologies: ["ASP.NET MVC", ".NET Web APIs", "EF Core", "RabbitMQ", "WPF", "NUnit"],
   },
@@ -70,7 +93,7 @@ const experiences = [
   {
     title: "C# Software Developer",
     company: "Evosoft Hungary Kft.",
-    period: "Jun 2018 - Present",
+    period: "Jun 2018 - Jan 2026",
     description: "Full-stack C# development including solution architecture, debugging, troubleshooting, and comprehensive testing. Building desktop applications with WPF using MVVM pattern.",
     technologies: ["C#", "WPF", "MVVM", "MSSQL", "WCF", "NUnit"],
   },
@@ -135,7 +158,7 @@ export function MainContent() {
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mb-6">
           I'm a seasoned Senior Software Engineer specializing in Microsoft technologies and Azure solutions 💻. 
-          With a strong foundation in C#, .NET Core, and Entity Framework, I focus on creating robust web and 
+          With a strong foundation in C#, .NET 10, and Entity Framework, I focus on creating robust web and 
           desktop applications. My expertise extends to developing RESTful APIs and implementing scalable cloud 
           services, constantly driven by best software design and development practices 🚀.
         </p>
@@ -178,6 +201,23 @@ export function MainContent() {
                 ))}
             </div>
         </section>
+
+      {/* Side Projects Section */}
+      <section className="mb-12">
+        <div className="flex items-center gap-3 mb-6">
+          <Rocket className="w-6 h-6 text-primary" />
+          <h2 className="text-2xl font-mono font-bold text-foreground">Non-Profit & Side Projects</h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-1">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              {...project}
+              delay={index * 100}
+            />
+          ))}
+        </div>
+      </section>
 
       {/* Experience Section */}
       <section className="mb-12">

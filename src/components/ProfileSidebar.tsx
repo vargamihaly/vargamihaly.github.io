@@ -36,7 +36,7 @@ export function ProfileSidebar() {
                 {/* Bio */}
                 <p className="text-muted-foreground text-sm lg:text-base leading-relaxed mb-6 text-center lg:text-left">
                     Seasoned Senior Software Engineer specializing in Microsoft technologies and Azure solutions.
-                    Creating robust web and desktop applications with C#, .NET Core, and Entity Framework.
+                    Creating robust web and desktop applications with C#, .NET 10, and Entity Framework.
                 </p>
 
                 {/* Divider */}

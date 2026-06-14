@@ -6,6 +6,9 @@ interface TechBadgeProps {
 const techColors: Record<string, string> = {
   "C#": "bg-purple-600",
   ".NET Core": "bg-purple-500",
+  ".NET 10": "bg-purple-600",
+  "Pulumi": "bg-violet-600",
+  "Azure Databricks": "bg-red-600",
   "ASP.NET": "bg-purple-700",
   "Entity Framework": "bg-indigo-600",
   "Azure": "bg-blue-500",

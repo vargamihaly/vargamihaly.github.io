@@ -1,0 +1,224 @@
+\documentclass[9pt]{developercv}
+\usepackage{graphicx}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND CONTACT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.45\textwidth} % 45% of the page width for name
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% If your name is very short, use just one of the lines below
+	% If your name is very long, reduce the font size or make the minipage wider and reduce the others proportionately
+	
+		\includegraphics[width=4cm, height=4cm]{me.jpg} \\
+	\colorbox{black}{{\HUGE\textcolor{white}{\textbf{\MakeUppercase{Mihály}}}}} % First name
+	
+	\colorbox{black}{{\HUGE\textcolor{white}{\textbf{\MakeUppercase{Varga}}}}} % Last name
+	
+	\vspace{6pt}
+	
+	{\huge Senior Software Engineer} % Career or current job title
+\end{minipage}
+\begin{minipage}[t]{0.275\textwidth} % 27.5% of the page width for the first row of icons
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the text
+	% Other icons can be found by referring to fontawesome.pdf (supplied with the template) and using the word after \fa in the command for the icon you want
+
+	\icon{Phone}{12}{+36 20 41 77 205}\\
+	\icon{At}{12}{\href{mailto:contact@mihaly-varga.com}{contact@mihaly-varga.com}}\\	
+\end{minipage}
+\begin{minipage}[t]{0.275\textwidth} % 27.5% of the page width for the second row of icons
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the text
+	% Other icons can be found by referring to fontawesome.pdf (supplied with the template) and using the word after \fa in the command for the icon you want
+	\icon{Linkedin}{12}{\href{https://www.linkedin.com/in/vmisi20/}{vmisi20}}\\
+\end{minipage}
+
+\vspace{0.5cm}
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION, SKILLS AND TECHNOLOGIES
+%----------------------------------------------------------------------------------------
+
+\cvsect{Who Am I?}
+
+\begin{minipage}[t]{0.9\textwidth} % 40% of the page width for the introduction text
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	Senior .NET Developer with 10+ years designing cloud-native enterprise solutions. Specialized in .NET 10, Azure, and modern architectures. Proven track record in delivering mission-critical applications for industrial IoT and data processing within SAFe agile environments. Certified ISTQB and Microsoft Specialist.
+
+
+\end{minipage}
+\hfill % Whitespace between
+
+
+%----------------------------------------------------------------------------------------
+%	EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\cvsect{Experience}
+
+\begin{entrylist}
+	
+	\entry
+    {Jan. 2026-Present}
+    {Senior .NET Developer}
+    {HEITEC Hungary Kft.}
+    {Architecting and developing cloud-native solutions using Azure Durable Functions and .NET 10. Managing Infrastructure as Code with Pulumi and implementing data processing pipelines with Azure Databricks and Python. Delivering robust enterprise applications utilizing Microsoft Azure, Azure DevOps, and Azure SQL Database.}
+
+	\entry
+    {Sep. 2021-Jan. 2026}
+    {Senior .NET Developer}
+    {Blackbelt Technology Kft.}
+    {Designed and implemented greenfield applications and modernized legacy ecosystems for Elpro Buchs AG. Collaborated in an international SAFe agile team using .NET 8, React, RabbitMQ, and Azure Cloud.}
+
+	\entry
+		{Sep. 2022-Present}
+		{.NET trainer}
+		{Soter-Line Educational Center}
+		{{Design and instructed courses on .NET and software development, emphasizing design patterns. } \\ }
+	\entry
+		{Jun. 2018-Jan. 2026\\}
+		{C\# Software developer}
+		{Evosoft Hungary Kft.}
+		{Full-stack development of test automation tools for Siemens. Expertise in ASP.NET MVC, WPF, and EF Core. Managed solution architecture and comprehensive testing strategies.}
+	\entry
+		{Feb 2017-Jun.2018\\}
+		{Software test automation engineer}
+		{Evosoft Hungary Kft.}
+		{Developed and maintained the test environment for automating integration and smoke tests. Focused on designing and sustaining innovative automated tests for Siemens' widely-used TIA Portal software.}
+	\entry
+		{Sep 2015-Feb 2017\\}
+		{Software QA Analyst}
+		{star/Trac Supply chain solution GmbH}
+		{I was responsible for drafting detailed test plans and executing functionality tests. Conducted performance benchmark evaluations to confirm system stability and compatibility.}
+		
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	PROJECTS
+%----------------------------------------------------------------------------------------
+\pagebreak
+\cvsect{Projects}
+
+\begin{entrylist}
+    \entry
+    {2025-Present}
+    {BottleBuddy - Founder \& Lead Developer}
+    {}
+    {A Hungary-focused non-profit platform connecting bottle owners with volunteers to promote recycling. Built as a PWA with an Android app available in the Play Store and real-time features. \\
+    \textbf{Used technologies:} .NET 10 · React · SignalR · Azure · PWA · Leaflet · TanStack Query · Web Push · SQL Server}
+
+    \entry
+    {Jan. 2026-Present}
+    {HEITEC - Cloud-Native Data Solutions}
+    {}
+    {Architecting mission-critical cloud solutions focusing on serverless workflows and high-performance data engineering. \\
+    \textbf{Used technologies:} .NET 10 · Azure Durable Functions · Pulumi · Azure Databricks · Python · Azure DevOps · Azure SQL · C\# · TypeScript}
+
+	\entry
+		{Sep. 2021-Present}
+		{Elpro - Business related Products}
+		{}
+		{With my agile team of 10 international engineers, we designed and developed various web applications using C\# and the latest .NET frameworks (.NET 8) for the backend, MSSQL Server (through Entity Framework Core 7 ORM) and MongoDB for persistence, React.js 18.2.0 and TypeScript for the frontend, and Microsoft Azure cloud environment as the hosting platform. \\
+
+These software products focused on managing different sensors to detect physical units such as temperature, air humidity, differential pressure, etc. They are used to monitor, display, audit, log, calibrate, and archive sensor data, as well as create alarms and send messages. I also worked on modernizing authentication and authorization of these apps using OpenID Connect and OAuth2.0. \\
+
+From the Microsoft Azure platform, we used PaaS components, mainly App Services, Function Apps, Azure SQL, Storage Accounts (for static web apps and storing files), Key Vaults, Managed Identities, etc. \\ \\
+\textbf{Used technologies:} .NET 8 · .NET 7 · .NET 6 · React · OAuth 2.0 · OpenID Connect · ASP.NET Web API · TypeScript · .NET Framework · .NET Core · Microsoft Azure · ASP.NET Core · C\# · ASP.NET MVC · Microsoft SQL Server · .NET · MongoDB · Windows Presentation Foundation (WPF)}
+
+\entry
+		{Sep. 2023-Present}
+		{Elpro - elproUSER}
+		{}
+		{ElproUSER is a cutting-edge authorization system designed to handle user identities, group memberships, and permissions across diverse applications while ensuring robust security and alignment with organizational structures and user roles. It boasts a comprehensive database encompassing users, groups, functions, roles, and permissions, facilitating the linkage of groups to specific application functions.  \\
+        My role involved setting up the solution architecture, database modeling, creating endpoints and services, integrating Keycloak for authentication, and collaborating on frontend development using React. \\
+
+\textbf{Used technologies:}  C\# 11 · .NET 8 · ASP.NET Core Web API · Microsoft SQL Server · Microsoft Azure · React v.18 · Keycloak v.26 · OAuth 2.0 · OpenID Connect · AutoMapper · Swashbuckle · Gitlab · xUnit · MoQ · FluentAssertions }
+
+\end{entrylist}
+
+\begin{entrylist}
+	\entry
+		{Jan 2019 - Jan 2021}
+		{Evosoft - Multiple Software Products}
+		{}
+		{During my tenure at Evosoft, I developed a suite of applications focusing on test automation for Siemens's TIA Portal. \\
+
+\textbf{Action Creator}: A WPF desktop application following the MVVM pattern, utilizing Microsoft's MSAA library to capture and assign actions to UI controls. This tool enabled testers to create intricate UI-based functional tests. \\
+
+\textbf{TAI Frontend}: A WPF application that served to create and manage test scenarios. It allowed the arrangement of test steps into complex actions, seamlessly integrating with the Action Creator project. \\
+
+\textbf{TAInterpreter}: A C\# console application that functions as a test framework. Interprets XML-defined actions from the Action Creator project, utilizing the MSAA Microsoft library to interact with the TIA Portal's UI. The framework executes these actions, simulating user interactions, and exports the results of the test runs for analysis and review. \\
+
+ \textbf{Skills:} WPF · .NET Core · WCF · Microsoft SQL Server }
+ 
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+\pagebreak
+\cvsect{Education}
+
+\begin{entrylist}
+	\entry
+		{2010 - 2014}
+		{Computer Scientist | BsC}
+		{University of Nyíregyháza}
+		
+\end{entrylist}
+
+\cvsect{Courses}
+
+\begin{entrylist}
+	\entry
+		{2018 - 2020}
+		{ISTQB Foundation Level  \\  Microsoft Specialist: Programming in C\# \\ Secure desktop application development in C\# }
+        {}
+	
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	ADDITIONAL INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.3\textwidth}
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+
+	\cvsect{Soft skills}
+    \\ Driver License ( B )
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\textwidth}
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	\cvsect{Hobbies}
+ 
+	\textbf{Dog Training \& Outdoor Fun:} Spending time outdoors with my dog and training sessions. \\
+\textbf{Reading:} Diving into books on psychology, astrophysics, and ethology. \\
+\textbf{Sports:} Staying active and engaged in various sports.
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\textwidth}
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	
+   	\cvsect{Languages}
+	
+	\textbf{Hungarian} - native\\
+	\textbf{English} - proficient\\
+	
+	
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
