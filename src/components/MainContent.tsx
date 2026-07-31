@@ -73,7 +73,7 @@ const experiences = [
     title: "Senior .NET Developer",
     company: "HEITEC Hungary Kft.",
     period: "Jan 2026 - Present",
-    description: "Architecting and developing cloud-native solutions using Azure Durable Functions and .NET 10. Managing Infrastructure as Code with Pulumi and implementing data processing pipelines with Azure Databricks and Python.",
+    description: "External backend developer for SparePartsNow, a distributed B2B e-commerce platform. Building and operating cloud-native .NET 10 services on Azure — Durable Functions orchestrations, ASP.NET Core APIs, EF Core / Azure SQL — with responsibility for the end-to-end integrity of long-running, data-heavy workflows and for production reliability across the platform",
     technologies: ["Azure Durable Functions", "Azure", "Pulumi", ".NET 10", "C#", "TypeScript", "Azure Databricks", "Python", "Azure DevOps", "Azure SQL"],
   },
   {
@@ -127,7 +127,7 @@ const education = [
     isCertification: true,
   },
   {
-    title: "Advanced C#",
+    title: "Programming in C# — Exam 70-483",
     institution: "Professional Certification",
     period: "2018 - 2023",
     isCertification: true,
