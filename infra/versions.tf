@@ -8,8 +8,7 @@ terraform {
     }
   }
 
-  # Step 1 uses local state (terraform.tfstate in this folder, git-ignored).
-  # Step 2 will move it to an Azure Storage backend.
+  # State lives in Azure Storage: see backend.tf (created by ./bootstrap).
 }
 
 provider "azurerm" {
