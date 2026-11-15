@@ -11,6 +11,7 @@ The GitHub Pages deploy (`.github/workflows/deploy.yml`) keeps running until cut
 ## Layout
 
 - `bootstrap/` creates the Azure Storage that holds Terraform state. Apply it once; its own state stays local.
+- `guardrails/` holds cost controls for this project's resource groups: Azure Policy deny rules and budgets. Its state is at `guardrails/prod.tfstate`. A person applies it, never CI.
 - `./` (this folder) is the site itself. Its state is in Azure Storage (`backend.tf`), at blob `tfstate/site/prod.tfstate`.
 
 ## First-time setup (PowerShell)
@@ -48,7 +49,7 @@ Clean up everything: `terraform destroy`.
 
 1. ✅ Resource group + Free Static Web App (local state)
 2. ✅ Remote state in Azure Storage (`bootstrap/` + `backend.tf`)
-3. Budget alert
+3. ✅ Cost guardrails (`guardrails/`): policy deny + budgets
 4. GitHub Actions: `plan` on PR, `apply` on main, OIDC auth
 5. `github` provider writes the deploy token to repo secrets; switch site deploy to Azure
 6. Custom domain `mihaly-varga.com` (optional Azure DNS), modules, staging env
