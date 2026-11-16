@@ -10,6 +10,10 @@ output "container_name" {
   value = azurerm_storage_container.tfstate.name
 }
 
+output "site_container_name" {
+  value = azurerm_storage_container.tfstate_site.name
+}
+
 output "backend_config" {
   description = "What ../backend.tf must contain."
   value       = <<-EOT

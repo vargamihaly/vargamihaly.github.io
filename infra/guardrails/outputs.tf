@@ -9,6 +9,15 @@ output "policy_assignments" {
   )
 }
 
+output "github_actions_variables" {
+  description = "Set these as GitHub repository variables (Settings > Secrets and variables > Actions > Variables). Not secrets: they are identifiers."
+  value = {
+    AZURE_CLIENT_ID       = azuread_application.ci.client_id
+    AZURE_TENANT_ID       = data.azuread_client_config.current.tenant_id
+    AZURE_SUBSCRIPTION_ID = data.azurerm_client_config.current.subscription_id
+  }
+}
+
 output "budgets" {
   description = "Monthly budgets (EUR) per resource group."
   value       = { for k, b in azurerm_consumption_budget_resource_group.this : k => "${b.name}: ${b.amount}" }

@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 3.0"
+    }
   }
 
   # Same state storage as the site, different blob (key).
@@ -24,3 +28,6 @@ provider "azurerm" {
   features {}
   # Subscription from ARM_SUBSCRIPTION_ID, login from `az login`.
 }
+
+# Microsoft Entra ID (identities). Tenant and login come from `az login`.
+provider "azuread" {}

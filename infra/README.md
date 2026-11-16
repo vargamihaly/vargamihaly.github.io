@@ -50,6 +50,6 @@ Clean up everything: `terraform destroy`.
 1. ✅ Resource group + Free Static Web App (local state)
 2. ✅ Remote state in Azure Storage (`bootstrap/` + `backend.tf`)
 3. ✅ Cost guardrails (`guardrails/`): policy deny + budgets
-4. GitHub Actions: `plan` on PR, `apply` on main, OIDC auth
+4. ✅ GitHub Actions (`.github/workflows/terraform.yml`): `plan` on PR (comment), `apply` on main behind the `production` environment. Logs in with OIDC using the CI identity in `guardrails/ci-identity.tf`: Contributor on the site RG, blob access to the `tfstate-site` container only.
 5. `github` provider writes the deploy token to repo secrets; switch site deploy to Azure
 6. Custom domain `mihaly-varga.com` (optional Azure DNS), modules, staging env

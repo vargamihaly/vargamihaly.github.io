@@ -53,8 +53,18 @@ resource "azurerm_storage_account" "state" {
   }
 }
 
+# State of configs that only a person applies (guardrails).
 resource "azurerm_storage_container" "tfstate" {
   name                  = "tfstate"
+  storage_account_id    = azurerm_storage_account.state.id
+  container_access_type = "private"
+}
+
+# State of the site config. The CI identity gets blob access to THIS
+# container only (Azure RBAC can't be scoped below a container), so it
+# can never touch the guardrails state in "tfstate".
+resource "azurerm_storage_container" "tfstate_site" {
+  name                  = "tfstate-site"
   storage_account_id    = azurerm_storage_account.state.id
   container_access_type = "private"
 }

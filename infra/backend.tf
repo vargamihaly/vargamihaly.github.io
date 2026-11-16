@@ -5,8 +5,8 @@ terraform {
   backend "azurerm" {
     resource_group_name  = "rg-tfstate-mihalyvarga"
     storage_account_name = "sttfstatemihalyvarga"
-    container_name       = "tfstate"
-    key                  = "site/prod.tfstate" # blob path; one key per config/environment
-    use_azuread_auth     = true                # Entra ID (az login / OIDC), not storage keys
+    container_name       = "tfstate-site" # the only container CI can access
+    key                  = "prod.tfstate" # blob path; one key per environment
+    use_azuread_auth     = true           # Entra ID (az login / OIDC), not storage keys
   }
 }

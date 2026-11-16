@@ -1,0 +1,117 @@
+name: Terraform (site infra)
+
+# Runs the site config in infra/ only. infra/bootstrap and infra/guardrails
+# are applied by a person: CI must not be able to change its own guardrails.
+on:
+  pull_request:
+    branches: [main]
+    paths: ["infra/**", ".github/workflows/terraform.yml"]
+  push:
+    branches: [main]
+    paths: ["infra/**", ".github/workflows/terraform.yml"]
+  workflow_dispatch:
+
+permissions:
+  id-token: write # request the GitHub OIDC token used to log in to Azure
+  contents: read
+  pull-requests: write # post the plan as a PR comment
+
+# One Terraform run at a time; never cancel a running apply.
+concurrency:
+  group: terraform-site
+  cancel-in-progress: false
+
+env:
+  ARM_USE_OIDC: "true" # azurerm provider AND backend log in with the OIDC token
+  ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  TF_IN_AUTOMATION: "true"
+  TF_INPUT: "false"
+  TF_VERSION: "1.17.1"
+
+defaults:
+  run:
+    shell: bash # bash -eo pipefail: a failing terraform fails the step even when piped
+    working-directory: infra
+
+jobs:
+  plan:
+    name: Plan
+    # Fork PRs get no OIDC token, so skip them instead of failing.
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: terraform fmt
+        run: terraform fmt -check -recursive
+
+      - name: terraform init
+        run: terraform init
+
+      - name: terraform validate
+        run: terraform validate -no-color
+
+      - name: terraform plan
+        run: terraform plan -no-color -out=tfplan | tee plan.txt
+
+      - name: Comment plan on PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- terraform-plan:site -->';
+            let plan = fs.existsSync('infra/plan.txt')
+              ? fs.readFileSync('infra/plan.txt', 'utf8')
+              : 'Plan did not run - see the workflow logs.';
+            const max = 60000;
+            if (plan.length > max) plan = '…(truncated, full plan in the logs)…\n' + plan.slice(-max);
+            const summary = (plan.match(/^(Plan:.*|No changes\..*)$/m) || ['see details'])[0];
+            const body = [
+              marker,
+              `### Terraform plan (infra/): ${summary}`,
+              `<details><summary>Show plan</summary>\n\n\`\`\`\n${plan}\n\`\`\`\n</details>`,
+              `*Commit ${context.sha.slice(0, 7)} · [run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})*`,
+            ].join('\n\n');
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo, issue_number: context.issue.number, per_page: 100,
+            });
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
+            }
+
+  apply:
+    name: Apply
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    # Waits for a required reviewer, and is the only job whose OIDC subject
+    # (environment:production) Azure accepts for this path.
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: terraform init
+        run: terraform init
+
+      - name: terraform plan
+        run: terraform plan -no-color -out=tfplan
+
+      - name: terraform apply
+        run: terraform apply -no-color tfplan

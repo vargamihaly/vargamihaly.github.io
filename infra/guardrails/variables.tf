@@ -4,6 +4,18 @@ variable "project" {
   default     = "mihalyvarga"
 }
 
+variable "github_repository" {
+  description = "owner/name of the GitHub repo whose Actions may log in as the CI identity."
+  type        = string
+  default     = "vargamihaly/vargamihaly.github.io"
+}
+
+variable "github_environment" {
+  description = "GitHub environment the apply job runs in (protected by a required reviewer)."
+  type        = string
+  default     = "production"
+}
+
 variable "monthly_budget_eur" {
   description = "Monthly budget per resource group, in the billing currency (EUR). Expected spend is ~0."
   type        = number
