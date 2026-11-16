@@ -17,8 +17,9 @@ locals {
   # Exact "sub" claims GitHub puts in the token. Anything else is rejected:
   # other repos, forks, other environments.
   federated_subjects = {
-    pull-request = "repo:${var.github_repository}:pull_request"                          # plan on PRs
-    production   = "repo:${var.github_repository}:environment:${var.github_environment}" # apply on main
+    pull-request = "repo:${var.github_repository}:pull_request"                               # plan on PRs
+    production   = "repo:${var.github_repository}:environment:${var.github_environment}"      # apply on main
+    site-deploy  = "repo:${var.github_repository}:environment:${var.github_site_environment}" # upload site build
   }
 
   site_state_container_id = "${data.azurerm_resource_group.state.id}/providers/Microsoft.Storage/storageAccounts/sttfstatemihalyvarga/blobServices/default/containers/tfstate-site"
