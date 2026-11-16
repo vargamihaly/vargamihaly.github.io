@@ -1,14 +1,20 @@
-name: Deploy to GitHub Pages
+name: Deploy site
 
+# Builds once, then publishes the same dist/ to:
+#   - GitHub Pages (live site mihaly-varga.com, until the domain moves in step 6)
+#   - Azure Static Web Apps (swa-mihalyvarga-prod, managed in infra/)
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "infra/**"
+      - ".github/workflows/terraform.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
-  id-token: write
+  id-token: write # OIDC: GitHub Pages deploy AND Azure login
 
 concurrency:
   group: "pages"
@@ -29,10 +35,16 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Upload artifact
+      - name: Upload artifact (GitHub Pages)
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+      - name: Upload artifact (Azure)
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: ./dist
+          retention-days: 1
 
   deploy:
     environment:
@@ -44,3 +56,49 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-azure:
+    name: Deploy to Azure Static Web Apps
+    runs-on: ubuntu-latest
+    needs: build
+    # main-only environment without approval. Its OIDC subject
+    # (environment:azure-site) is trusted by the CI identity (infra/guardrails).
+    environment:
+      name: azure-site
+      url: ${{ steps.swa.outputs.url }}
+    env:
+      AZURE_RESOURCE_GROUP: rg-mihalyvarga-prod
+      AZURE_STATIC_WEB_APP: swa-mihalyvarga-prod
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+
+      - name: Azure login (OIDC, no secrets)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      # The deployment token is fetched at run time (Contributor on the site RG
+      # allows listSecrets) and masked, so it is never stored in GitHub.
+      - name: Get deployment token
+        id: swa
+        run: |
+          token=$(az staticwebapp secrets list -n "$AZURE_STATIC_WEB_APP" -g "$AZURE_RESOURCE_GROUP" --query properties.apiKey -o tsv)
+          echo "::add-mask::$token"
+          echo "token=$token" >> "$GITHUB_OUTPUT"
+          host=$(az staticwebapp show -n "$AZURE_STATIC_WEB_APP" -g "$AZURE_RESOURCE_GROUP" --query defaultHostname -o tsv)
+          echo "url=https://$host" >> "$GITHUB_OUTPUT"
+
+      - name: Upload to Static Web App
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa.outputs.token }}
+          action: upload
+          app_location: dist
+          skip_app_build: true
+          skip_api_build: true

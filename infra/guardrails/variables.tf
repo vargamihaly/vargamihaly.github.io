@@ -16,6 +16,12 @@ variable "github_environment" {
   default     = "production"
 }
 
+variable "github_site_environment" {
+  description = "GitHub environment the site deploy job runs in (main branch only, no approval)."
+  type        = string
+  default     = "azure-site"
+}
+
 variable "monthly_budget_eur" {
   description = "Monthly budget per resource group, in the billing currency (EUR). Expected spend is ~0."
   type        = number
