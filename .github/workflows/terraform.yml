@@ -16,11 +16,6 @@ permissions:
   contents: read
   pull-requests: write # post the plan as a PR comment
 
-# One Terraform run at a time; never cancel a running apply.
-concurrency:
-  group: terraform-site
-  cancel-in-progress: false
-
 env:
   ARM_USE_OIDC: "true" # azurerm provider AND backend log in with the OIDC token
   ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
@@ -99,6 +94,12 @@ jobs:
     # Waits for a required reviewer, and is the only job whose OIDC subject
     # (environment:production) Azure accepts for this path.
     environment: production
+    # One apply at a time; never cancel a running apply. Job-level on purpose:
+    # an apply waiting for approval must not block PR plans (plans are safe in
+    # parallel - the state lock serializes the actual Terraform runs).
+    concurrency:
+      group: terraform-site-apply
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
 
