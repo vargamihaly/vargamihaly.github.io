@@ -1,0 +1,43 @@
+name: Checkov (IaC security scan)
+
+# Static security analysis of the Terraform code and the GitHub workflows.
+# Settings live in .checkov.yaml (same as local runs). A finding that is not
+# fixed or explicitly skipped with a reason fails the check.
+on:
+  pull_request:
+    branches: [main]
+    paths: ["infra/**", ".github/workflows/**", ".checkov.yaml"]
+  push:
+    branches: [main]
+    paths: ["infra/**", ".github/workflows/**", ".checkov.yaml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write # upload results to Security > Code scanning
+
+jobs:
+  checkov:
+    name: Checkov
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Checkov
+        run: pip install --disable-pip-version-check checkov==3.4.6
+
+      - name: Run Checkov
+        run: checkov --output cli --output sarif --output-file-path console,checkov.sarif
+
+      # Runs even when Checkov fails, so findings show up in the Security tab
+      # and as annotations on the PR.
+      - name: Upload SARIF to code scanning
+        if: success() || failure()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: checkov.sarif
+          category: checkov

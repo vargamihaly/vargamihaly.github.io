@@ -20,6 +20,12 @@ resource "azurerm_resource_group" "state" {
 }
 
 resource "azurerm_storage_account" "state" {
+  # Checkov findings accepted on purpose (risk decisions, see infra/README.md):
+  #checkov:skip=CKV_AZURE_59:Public endpoint needed: GitHub-hosted runners use changing public IPs. Access requires Entra ID + RBAC; shared keys are disabled.
+  #checkov:skip=CKV2_AZURE_33:Private endpoint costs ~7 EUR/month and GitHub-hosted runners could not reach it.
+  #checkov:skip=CKV_AZURE_206:Cost guardrail allows Standard_LRS only. Versioning + soft delete cover accidental loss; a regional outage is acceptable here.
+  #checkov:skip=CKV2_AZURE_1:Customer-managed key needs a Key Vault and losing the key loses all state. Microsoft-managed AES-256 encryption is sufficient.
+  #checkov:skip=CKV_AZURE_33:Queue service is not used.
   name                = var.storage_account_name
   resource_group_name = azurerm_resource_group.state.name
   location            = azurerm_resource_group.state.location
@@ -31,6 +37,17 @@ resource "azurerm_storage_account" "state" {
   min_tls_version                 = "TLS1_2"
   https_traffic_only_enabled      = true
   allow_nested_items_to_be_public = false # no anonymous blob access, ever
+
+  # Entra ID only: no account keys and no key-based SAS. Without this, anyone
+  # who can call listKeys gets full data access and bypasses RBAC. (CKV2_AZURE_40)
+  shared_access_key_enabled       = false
+  default_to_oauth_authentication = true # Azure Portal also uses Entra ID
+
+  # Defense in depth: SAS tokens should be short-lived. (CKV2_AZURE_41)
+  sas_policy {
+    expiration_period = "00.01:00:00" # 1 hour
+    expiration_action = "Log"
+  }
 
   blob_properties {
     versioning_enabled = true # every state write keeps the previous version
@@ -55,6 +72,7 @@ resource "azurerm_storage_account" "state" {
 
 # State of configs that only a person applies (guardrails).
 resource "azurerm_storage_container" "tfstate" {
+  #checkov:skip=CKV2_AZURE_21:Read logging needs a Log Analytics workspace (new resource type + cost). Planned as future work.
   name                  = "tfstate"
   storage_account_id    = azurerm_storage_account.state.id
   container_access_type = "private"
@@ -64,6 +82,7 @@ resource "azurerm_storage_container" "tfstate" {
 # container only (Azure RBAC can't be scoped below a container), so it
 # can never touch the guardrails state in "tfstate".
 resource "azurerm_storage_container" "tfstate_site" {
+  #checkov:skip=CKV2_AZURE_21:Read logging needs a Log Analytics workspace (new resource type + cost). Planned as future work.
   name                  = "tfstate-site"
   storage_account_id    = azurerm_storage_account.state.id
   container_access_type = "private"

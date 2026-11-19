@@ -45,6 +45,22 @@ terraform output      # show URL etc.
 
 Clean up everything: `terraform destroy`.
 
+## Security scanning (Checkov)
+
+Run `checkov` from the repo root. It reads `.checkov.yaml` and scans the Terraform code and GitHub workflows. CI runs the same scan on PRs (`.github/workflows/checkov.yml`), puts the results in **Security → Code scanning**, and fails on any finding that is neither fixed nor skipped with a reason.
+
+Hardening applied to the state storage account: **shared keys disabled** (Entra ID only), Entra ID as the Portal default, a 1-hour SAS expiration policy.
+
+Accepted risks (each is an inline `#checkov:skip` in `bootstrap/main.tf`):
+
+| Check | Why accepted |
+|---|---|
+| CKV_AZURE_59, CKV2_AZURE_33: public endpoint, no private endpoint | GitHub-hosted runners use changing public IPs. A private endpoint costs about €7/month. |
+| CKV_AZURE_206: no geo-replication | The cost guardrail allows only LRS. Versioning and soft delete cover accidental loss. |
+| CKV2_AZURE_1: no customer-managed key | Needs a Key Vault, and losing the key loses all state. |
+| CKV_AZURE_33: no queue logging | The queue service isn't used. |
+| CKV2_AZURE_21: no blob read logging | Needs a Log Analytics workspace. Future work. |
+
 ## Roadmap
 
 1. ✅ Resource group + Free Static Web App (local state)
