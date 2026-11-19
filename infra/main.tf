@@ -25,4 +25,12 @@ resource "azurerm_static_web_app" "site" {
   sku_size = "Free"
 
   tags = local.tags
+
+  lifecycle {
+    # The deploy workflow (Azure/static-web-apps-deploy) records the source
+    # repo/branch on the app at every upload. That metadata belongs to the
+    # deploy pipeline, not to Terraform; without this, every plan would show
+    # drift and every apply would wipe it until the next deploy.
+    ignore_changes = [repository_url, repository_branch]
+  }
 }

@@ -1,0 +1,14 @@
+# Shared Checkov settings. Picked up automatically when `checkov` runs from the
+# repo root, so local scans and CI (.github/workflows/checkov.yml) behave the same.
+# Accepted risks are documented inline with `#checkov:skip=<ID>:<reason>`.
+directory:
+  - .
+framework:
+  - terraform
+  - github_actions
+skip-path:
+  - node_modules
+  - dist
+  - .terraform
+skip-download: true # don't contact the Prisma Cloud platform
+compact: true

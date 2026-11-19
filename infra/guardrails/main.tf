@@ -71,14 +71,16 @@ resource "azurerm_policy_definition" "swa_free_only" {
 
   metadata = jsonencode({ category = "Cost" })
 
+  # "if"/"then" are quoted: Terraform accepts them bare, but Checkov's HCL
+  # parser treats them as keywords and would silently skip this whole file.
   policy_rule = jsonencode({
-    if = {
+    "if" = {
       allOf = [
         { field = "type", equals = "Microsoft.Web/staticSites" },
         { field = "Microsoft.Web/staticSites/sku.name", notEquals = "Free" },
       ]
     }
-    then = { effect = "deny" }
+    "then" = { effect = "deny" }
   })
 }
 
